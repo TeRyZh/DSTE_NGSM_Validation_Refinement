@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deblur-NeRF">
+  <meta name="keywords" content="Contrastive Learning, Trajectory Validation, Refinement, Precise NGSIM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Spatial Temporal Embedding</title>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Deep Spatial-Temporal Embedding for Vehicle Trajectory Validation and Refinement</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://teryzh.github.io/Website/">Tianya Terry Zhang</a><sup>1, 2</sup>,</span>
+            <span class="author-block">
+              <a href="https://cee.rutgers.edu/fac/jing-peter-jin">Peter J. Jin</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://lab-piccoli.github.io/">Benedetto Piccoli</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.utc.edu/research/center-for-urban-informatics-and-progress/our-team/mina-sartipi">Mina Sartipi</a><sup>2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Rutgers, The State University of New Jersey</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>2</sup>University of Tennessee at Chattanooga</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+<!--               <span class="link-block">
+                <a href="https://arxiv.org/abs/2111.14292"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Arxiv</span>
+                </a>
+              </span> -->
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/1MwdhmwIr3GoRuBCb-_cXgPDUjEKcSclX?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Supple-I80</span>
+                </a>
+              </span>
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/1F-cKlUmVGBiwRexzlKUCMwS-VaIsSda8?usp=drive_link"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Supple-US101</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/TeRyZh/Spatial-Temporal-Deep-Embedding-for-Vehicle-Trajectory-Reconstruction-from-High-Angle-Video"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/13D2IqlIleSTNc5CFastR2DhW9kflcRh2?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            High-angle cameras are commonly used for trajectory data collection in transportation research. However, without refinement and validation, trajectory data obtained through video processing software may be unreliable, inaccurate, or incomplete. This paper focuses on a critical issue in the field of trajectory data acquisition and analysis --- there is still no reliable and fully vetted trajectory dataset in the research community. The current practice for validating video-based detection results is not scalable, mainly relying on brute-force efforts to watch the video replay and repair the incorrect bounding boxes frame-by-frame. The longitudinal scanline method offers an additional layer of verification to affirm the accuracy and reliability of trajectory data, correcting roughly all detection-tracking and lane assignment errors in the legacy NGSIM (Next Generation Simulation) highway dataset. To enhance the performance, the Deep Spatial-Temporal Embedding (DSTE) model is proposed for trajectory instance segmentation on Spatial-temporal Maps (STMaps) using the contrastive learning framework. The parity constraints at both pixel and instance levels guide the deep neural network to learn the embedding spaces that can be built on different backbone networks. The reconstructed trajectory dataset is thoroughly validated against manually processed ground truth, and the error-free NGSIM data is refined to be a reliable resource for transportation research based on car-following behaviors, lane-change frequency, consistency, and jerk value measurements.            
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Key Innovations and Contributions</h2>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+              <strong>Integral Solution for Detection and Tracking:</strong> Conversion of the detection and tracking task into an instance segmentation task using STMap, significantly reducing labor in adjusting detection and tracking errors frame by frame.
+            </li>
+            <li>
+              <strong>Deep Spatial-Temporal Embedding (DSTE) Model:</strong> A contrastive learning-based model that surpasses current segmentation baselines by integrating local and global correlations. It facilitates proposal-free instance segmentation for more precise instance differentiation.
+            </li>
+            <li>
+              <strong>Enhanced Scanline Approach to NGSIM Datasets:</strong> Improvement of NGSIM datasets' quality and reliability, crucial for traffic flow studies and the development of accurate traffic models and simulations.
+            </li>
+            <li>
+              <strong>Comprehensive Evaluation of Trajectory Data:</strong> Introduction of a detailed statistical quality assessment for video-based trajectory datasets, covering multiple aspects such as Position & Speed Accuracy and Internal Consistency. This is considered the most thorough evaluation for these types of datasets.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Pipeline. -->
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+      <h2 class="title is-3">Pipeline</h2>
+      <div class="pipeline">
+        <img src="./images/Fig1_Overview_Structure.png" 
+               class="pipeline image"
+               alt="pipeline image"/>
+        <!-- <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+      </div>
+    </div>
+  </div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Instance Segmentation Compared to SOTA Baselines</h2>
+      <!-- Image tag inserted here -->
+      <img src="./images/Baselines_Comparison.png">
+      <h3 class="subtitle has-text-centered">
+        Deep-Spatial-Temporal-Embedding (DSTE) Instance Segmentation Output vs. Baseline Models. 1- STMap with Clean Background; 2-STMap with Dense Trajectories and Shadows; 3- STMap with Shadows and Static Noises; Our model is compared with SOTA proposal-based and proposal-free instance segmentation models. The Instance outputs are based on imperfect semantic foreground masks where trajectory strands are often stitched. 
+      </h3>
+    </div>
+  </div>
+</section>
+
+<!-- This will generate a gallery of videos -->
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop height="100%">
+            <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop height="100%">
+            <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<!-- </section> 
+  </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            Realistic and consistent data form the foundation for numerous scientific discoveries, as machine learning algorithms are trained and tested on high-resolution driving data. These datasets also enable the simulation of various driving conditions for connected and autonomous vehicles (CAVs). The principle of "garbage in, garbage out" applies, as erroneous data can lead to false conclusions and misleading insights, resulting in flawed traffic flow analysis. With rapid advancements in computer vision, we can expect more accurate models. However, it's important to note that object detection and tracking are just one part of the trajectory data extraction process. There are several other crucial steps involved in making the raw data from video files suitable for further analysis and applications. Once the trajectories are extracted, signal processing and statistical approaches are applied to clean and enhance the trajectory data, including outlier removal, smoothing, and interpolation. Issues related to data accuracy can arise due to imperfect detection and tracking, sensor calibration, multicamera stitching, lane assignment, or inappropriate data cleaning. Therefore, data quality becomes a crucial aspect of transportation science 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>  -->
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">More results</h2>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            We show more Trajectory Reconstruction results below. Inlcuding Instance Level Output and Statistic Evaluation
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <h2 class="title is-3">Scanline and Spatial Temporal Map With NGSIM Video</h2>
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-blurgirl">
+            <img src="./images/Highway Locations-I80.png">
+        </div>
+        <div class="item item-blurcozyroom">
+            <img src="./images/Highway Locations-US101.png">
+        </div>
+        <div class="item item-blurcozyroom">
+            <img src="./images/SpatioTemporal_Adjacent_Encoding.png">
+        </div>
+        <div class="item item-blurcozyroom">
+            <img src="./images/Instance Level Embedding.png">
+        </div>
+        <div class="item item-blurdecoration">
+            <img src="./images/Video_Scanlines.png">
+        </div>
+
+        <!-- <div class="item item-blurheron">
+          <video poster="" id="blurheron" autoplay controls muted loop height="100%">
+            <source src="https://limacv.github.io/deblurnerf/images/blurheron.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blurpool">
+          <video poster="" id="blurpool" autoplay controls muted loop height="100%">
+            <source src="https://limacv.github.io/deblurnerf/images/blurpool.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blurpuppet">
+          <video poster="" id="blurpuppet" autoplay controls muted loop height="100%">
+            <source src="https://limacv.github.io/deblurnerf/images/blurpuppet.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blurstair">
+          <video poster="" id="blurstair" autoplay controls muted loop height="100%">
+            <source src="https://limacv.github.io/deblurnerf/images/blurstair.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <h2 class="title is-3">Instance Segmentation Output</h2>
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-defocuscoral">
+            <img src="./images/OverlappingTrajectories_OriginalSTMap.png">
+        </div>
+        <div class="item item-defocuscoral">
+            <img src="./images/OverlappingTrajectories_PreviousSegmentation.png">
+        </div>
+        <div class="item item-defocuscoral">
+            <img src="./images/OverlappingTrajectories_DSTE_Segmentation.png">
+        </div>
+        <div class="item item-defocuscoral">
+            <img src="./images/Trajectory_Level_Evaluation_rawSTMap.png">
+        </div>
+        <div class="item item-defocuscoral">
+            <img src="./images/Trajectory_Level_Evaluation_Watershed.png">
+        </div>
+        <div class="item item-defocuscoral">
+            <img src="./images/Trajectory_Level_Evaluation_MutexWatershed.png">
+        </div>
+<!--         <div class="item item-defocuscoral">
+            <img src="./images/Sermentic Segmentation Embedding.png">
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-max-desktop">
+  <div class="hero-body">
+    <h2 class="title is-3">More Trajectory Evaluation Results</h2>
+    <div class="container">
+       <div id="results-carousel" class="carousel results-carousel">
+       <!--  <div class="item em-blur5grass1">
+          <img src="./images/Validation_Position.png">
+        </div> -->
+        <div class="item em-blur5grass1">
+            <img src="./images/Postions_Errors_AllLanes.png">
+        </div>
+        <div class="item em-blur5grass1">
+            <img src="./images/Speed_Error_AllLanes.png">
+        </div>
+        <div class="item em-blur5grass1l">
+            <img src="./images/Validation_Platoon.png">
+        </div>
+        <div class="item em-blur5grass1">
+            <img src="./images/Validation_Speeds_Patoon.png">
+        </div>
+        <div class="item em-blur5grass1">
+            <img src="./images/Validation_LaneChange_Corrections.png">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{zhang2024DSTE,
+      title   ={Deep Spatial-Temporal Embedding for Vehicle Trajectory Validation and Refinement},
+      author  ={Zhang, T. Terry and Jin, Peter J. and Piccoli, Bennedetto and Sartipi Mina},
+      journal ={Under Review},
+      year    ={2024}
+}
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://homes.cs.washington.edu/~kpar/nerfies/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            The source code of this website is borrowed from 
+            <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/limacv/deblurnerf">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
