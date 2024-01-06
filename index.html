@@ -126,13 +126,47 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            High-angle cameras are commonly used for trajectory data collection in transportation research. However, without refinement and validation, trajectory data obtained through video processing software may be unreliable, inaccurate, or incomplete. This paper focuses on a critical issue in the field of trajectory data acquisition and analysis --- there is still no reliable and fully vetted trajectory dataset in the research community. The current practice for validating video-based detection results is not scalable, mainly relying on brute-force efforts to watch the video replay and repair the incorrect bounding boxes frame-by-frame. The longitudinal scanline method offers an additional layer of verification to affirm the accuracy and reliability of trajectory data, correcting roughly all detection-tracking and lane assignment errors in the legacy NGSIM (Next Generation Simulation) highway dataset. To enhance the performance, the Deep Spatial-Temporal Embedding (DSTE) model is proposed for trajectory instance segmentation on Spatial-temporal Maps (STMaps) using the contrastive learning framework. The parity constraints at both pixel and instance levels guide the deep neural network to learn the embedding spaces that can be built on different backbone networks. The reconstructed trajectory dataset is thoroughly validated against manually processed ground truth, and the error-free NGSIM data is refined to be a reliable resource for transportation research based on car-following behaviors, lane-change frequency, consistency, and jerk value measurements.            
+            High-angle cameras are commonly used for trajectory data collection in transportation research. However, without refinement and validation, trajectory data obtained through video processing software may be unreliable, inaccurate, or incomplete. This paper focuses on a critical issue in the field of trajectory data acquisition and analysis --- there is still no reliable and fully vetted trajectory dataset in the research community. The current practice for validating video-based detection results is not scalable, mainly relying on brute-force efforts to watch the video replay and repair the incorrect bounding boxes frame-by-frame. To enhance the performance, the Deep Spatial-Temporal Embedding (DSTE) model is proposed for trajectory instance segmentation on Spatial-temporal Maps (STMaps) using the contrastive learning framework. The parity constraints at both pixel and instance levels guide the deep neural network to learn the embedding spaces that can be built on different backbone networks. The reconstructed trajectory dataset is thoroughly validated against manually processed ground truth, and the error-free NGSIM data is refined to be a reliable resource for transportation research based on car-following behaviors, lane-change frequency, consistency, and jerk value measurements. In essence, STMap represents a significant advancement in the field of vehicle trajectory validation, promising both the meticulousness of direct validation and the scalability necessary for handling extensive traffic data.           
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
 
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Trajectory Validation Methods</h2>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+            <strong>Indirect Methods of Trajectory Validation:</strong>
+            <p>Indirect methods involve algorithmic checks against physical laws to identify and correct implausible trajectories. These methods detect anomalies by comparing the observed data against expected behaviors derived from traffic models. For instance, trajectories that suggest abrupt stops or accelerations that exceed typical vehicle capabilities are flagged as suspect. Once false trajectories are identified, they are often corrected using regression-to-the-mean models, such as car-following models, which reflect average driver behavior, or through smoothing techniques like low-pass filters that remove high-frequency noise from the data. </p>
+            <p>The primary advantage of indirect methods is efficiency. They can process large volumes of data quickly without human intervention. The downside is that while these methods are good at ensuring overall data plausibility, they might not capture the nuances of individual driving behaviors, potentially leading to a loss of detail in the data. </p>
+            </li>
+            <li>
+            <strong>Direct Methods of Trajectory Validation:</strong>
+            <p>Direct methods, on the other hand, rely on manual inspection of trajectory tracklets and their associated bounding boxes in each frame of video data. This process ensures that each trajectory is faithful to what was actually observed, preserving unique driving behaviors and characteristics that indirect methods might overlook.</p>
+            <p>The fidelity of data obtained through direct methods is typically higher because human validators can discern complex scenarios that automatic methods might misinterpret. However, this comes at the cost of being labor-intensive, which can significantly limit the amount of data that can be processed. Direct methods are often reserved for smaller datasets where the highest possible accuracy is required, or they are used to create ground truth data for the development and calibration of indirect methods.</p>
+            </li>
+            <li>
+            <strong>Spatial Temporal Map in Trajectory Validation:</strong>
+            <p>Spatial Temporal Map (STMap) is an innovative approach that enhances the direct method of vehicle trajectory validation, enabling it to be applied to large-scale datasets while maintaining high data fidelity. STMap creates a visual representation where time is one of the dimensions, alongside the spatial dimensions of the trajectory. By doing so, it allows for the rapid manual inspection of trajectories over time, as irregularities or anomalies can be more easily spotted in this format.</p>
+            <p>The strength of STMap lies in its ability to condense complex trajectory information into a more manageable and interpretable form. This transformation simplifies the validation process and reduces the time required for manual checks. Validators can quickly verify long sequences of movement by looking at a single STMap, rather than inspecting each frame individually.</p>
+            <p>This approach provides a scalable solution to the labor-intensive nature of direct methods, offering a balance between the thoroughness of manual validation and the need for efficiency in processing extensive datasets.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section">
   <div class="container is-max-desktop">
