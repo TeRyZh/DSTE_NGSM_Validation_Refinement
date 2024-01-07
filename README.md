@@ -1,4 +1,4 @@
-# Deblur-NeRF
+# Deep Spatial Temporal Embedding for Trajectory Validation and Refinement
 
 This is the repository that contains source code for the [DSTE for Trajectory Validation and Refinement](https://github.com/TeRyZh/Spatial-Temporal-Deep-Embedding-for-Vehicle-Trajectory-Reconstruction-from-High-Angle-Video).
 
