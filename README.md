@@ -7,7 +7,7 @@ If you find it useful for your work please cite:
 @article{zhang2024DSTE,
       title   ={Deep Spatial-Temporal Embedding for Vehicle Trajectory Validation and Refinement},
       author  ={Zhang, T. Terry and Jin, Peter J. and Piccoli, Bennedetto and Sartipi Mina},
-      journal ={Under Review},
+      journal ={Computer-Aided Civil and Infrastructure Engineering},
       year    ={2024}
 }
 ```
